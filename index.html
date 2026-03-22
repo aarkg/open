@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Surprise ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9ccf, #ffe6f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+}
+
+/* Container */
+.container {
+    z-index: 2;
+    padding: 20px;
+    max-width: 90%;
+}
+
+h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    animation: fadeIn 2s ease-in-out;
+}
+
+p {
+    margin-top: 15px;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    animation: fadeIn 3s ease-in-out;
+}
+
+/* Buttons */
+button {
+    margin-top: 25px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #fff;
+    color: #ff6b81;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+#stopBtn {
+    display: none;
+    margin-top: 15px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>💖 Happy Birthday, April! 💖</h1>
+    <p>
+        Hey… just wanted to say you’re amazing, and I hope your day brings you the sweetest smile 😊
+    </p>
+
+    <audio id="birthdayAudio"
+        src="https://www.orangefreesounds.com/wp-content/uploads/2016/06/Happy-birthday-song.mp3"
+        preload="auto">
+    </audio>
+
+    <button id="surpriseBtn">Click for a Little Surprise ✨</button>
+    <button id="stopBtn">Stop Music ⏹️</button>
+</div>
+
+<script>
+const audio = document.getElementById('birthdayAudio');
+const surpriseBtn = document.getElementById('surpriseBtn');
+const stopBtn = document.getElementById('stopBtn');
+
+// Create some floating hearts on load
+for (let i = 0; i < 12; i++) {
+    createHeart();
+}
+
+// Emoji heart generator
+function createHeart() {
+    const heart = document.createElement('div');
+
+    const hearts = ['❤️', '💖', '💗', '💓', '💕'];
+    heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+
+    heart.style.position = 'absolute';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.bottom = '-30px';
+    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+    heart.style.animation = 'floatUp ' + (Math.random() * 4 + 4) + 's linear forwards';
+    heart.style.pointerEvents = 'none';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+}
+
+// Surprise button
+function surprise() {
+
+    // Play music
+    audio.currentTime = 0;
+    audio.play();
+
+    // Show stop button
+    stopBtn.style.display = 'inline-block';
+
+    // Button pop effect
+    surpriseBtn.style.transform = 'scale(1.15)';
+    setTimeout(() => {
+        surpriseBtn.style.transform = 'scale(1)';
+    }, 200);
+
+    // Create many hearts
+    for (let i = 0; i < 40; i++) {
+        createHeart();
+    }
+
+    floatingMessage();
+}
+
+// Floating romantic message
+function floatingMessage() {
+    const message = document.createElement('div');
+    message.innerText = '💌 You’re special 💌';
+    message.style.position = 'absolute';
+    message.style.left = (window.innerWidth / 2 - 100 + Math.random() * 200 - 100) + 'px';
+    message.style.top = (window.innerHeight / 2 - 50 + Math.random() * 100 - 50) + 'px';
+    message.style.fontSize = 'clamp(1rem, 3vw, 2rem)';
+    message.style.color = '#fff';
+    message.style.opacity = '1';
+    message.style.transition = 'all 3s ease-out';
+    message.style.pointerEvents = 'none';
+
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.style.transform = 'translateY(-150px)';
+        message.style.opacity = '0';
+    }, 50);
+
+    setTimeout(() => message.remove(), 3000);
+}
+
+// Stop button
+stopBtn.addEventListener('click', () => {
+    audio.pause();
+    stopBtn.style.display = 'none';
+});
+
+// Hide stop button when song ends
+audio.addEventListener('ended', () => {
+    stopBtn.style.display = 'none';
+});
+
+// Click event
+surpriseBtn.addEventListener('click', surprise);
+</script>
+
+</body>
+</html>
